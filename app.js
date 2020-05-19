@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // make the tetrominoes move down per second
   const freeze = () => {
-    if (current.some(index => 
+    if (current.some(index =>
       squares[currentPosition + index + width].classList.contains('taken')
     )) {
       current.forEach(index => squares[currentPosition + index].classList.add('taken'));
@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-
   const moveDown = () => {
     undraw();
     currentPosition += width;
@@ -83,5 +82,50 @@ document.addEventListener('DOMContentLoaded', () => {
     freeze();
   };
 
-  // timerId = setInterval(moveDown, 100);
+  // timerId = setInterval(moveDown, 500);
+
+  const moveLeft = () => {
+    undraw();
+    const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0);
+
+    if (!isAtLeftEdge) {
+      currentPosition -= 1;
+    }
+
+    if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+      currentPosition += 1;
+    }
+
+    draw();
+  };
+
+  const moveRight = () => {
+    undraw();
+    const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1);
+
+    if (!isAtRightEdge) {
+      currentPosition += 1;
+    }
+
+    if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+      currentPosition -= 1;
+    }
+
+    draw();
+  };
+
+  const control = e => {
+    if (e.keyCode === 37) { // left arrow key
+      moveLeft();
+    } else if (e.keyCode === 38) { // up arrow key
+      // rotate()
+    } else if (e.keyCode === 39) {
+      moveRight()
+    } else if (e.keyCode === 40) {
+      moveDown()
+    }
+  }
+
+  document.addEventListener('keyup', control);
+
 });
