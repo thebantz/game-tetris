@@ -1,0 +1,24 @@
+{
+  "name": "game-tetris",
+  "version": "1.0.0",
+  "description": "Creating the classic game Tetris with Javascript",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thebantz/game-tetris.git"
+  },
+  "author": "Nicole Banta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thebantz/game-tetris/issues"
+  },
+  "homepage": "https://github.com/thebantz/game-tetris#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.0.0"
+  },
+  "keywords": []
+}
