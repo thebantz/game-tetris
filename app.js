@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentRotation = 0;
   let random = Math.floor(Math.random() * theTetrominoes.length);
   let current = theTetrominoes[random][currentRotation];
+  let nextRandom = 0;
 
 
   // draw & undraw the tetrominoes
@@ -68,10 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
       squares[currentPosition + index + width].classList.contains('taken')
     )) {
       current.forEach(index => squares[currentPosition + index].classList.add('taken'));
-      random = Math.floor(Math.random() * theTetrominoes.length);
+      random = nextRandom;
+      nextRandom = Math.floor(Math.random() * theTetrominoes.length);
       current = theTetrominoes[random][currentRotation];
       currentPosition = 4;
       draw();
+      displayShape();
     }
   }
 
@@ -82,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     freeze();
   };
 
-  // timerId = setInterval(moveDown, 500);
+  // let timerId = setInterval(moveDown, 500);
 
   const moveLeft = () => {
     undraw();
@@ -114,11 +117,22 @@ document.addEventListener('DOMContentLoaded', () => {
     draw();
   };
 
+  const rotate = () => {
+    undraw();
+    currentRotation++;
+    if (currentRotation === current.length) {
+      currentRotation = 0;
+    }
+
+    current = theTetrominoes[random][currentRotation];
+    draw();
+  };
+
   const control = e => {
     if (e.keyCode === 37) { // left arrow key
       moveLeft();
     } else if (e.keyCode === 38) { // up arrow key
-      // rotate()
+      rotate()
     } else if (e.keyCode === 39) {
       moveRight()
     } else if (e.keyCode === 40) {
@@ -127,5 +141,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('keyup', control);
+
+  // Display next Tetromino with the mini-grid
+  const displaySquares = document.querySelectorAll('.mini-grid div');
+  const displayWidth = 4;
+  let displayIndex = 0;
+  
+
+  const upNextTetrominoes = [
+    [1, displayWidth + 1, displayWidth * 2 + 1, 2],
+    [0, displayWidth, displayWidth + 1, displayWidth *2 + 1],
+    [1, displayWidth, displayWidth + 1, displayWidth + 2],
+    [0, 1, displayWidth, displayWidth + 1],
+    [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1]
+  ];
+
+  const displayShape = () => {
+    displaySquares.forEach(square => {
+      square.classList.remove('tetromino');
+    });
+    upNextTetrominoes[nextRandom].forEach(index => {
+      displaySquares[displayIndex + index].classList.add('tetromino');
+    })
+  }
 
 });
